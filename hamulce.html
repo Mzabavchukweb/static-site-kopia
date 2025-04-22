@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamulce - AutoParts B2B</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Category Page Styles */
+        .category-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .category-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .category-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-description {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .category-filters {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--white);
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .category-products {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .product-specs {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--primary-color);
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .action-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .action-button.secondary {
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .action-button.secondary:hover {
+            background: var(--border-color);
+        }
+
+        @media (max-width: 1024px) {
+            .filters-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 123 456 789</span>
+                <span>📧 kontakt@autopartsb2b.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 16:00</span>
+            </div>
+            <div class="top-links">
+                <a href="#">Kontakt</a>
+                <a href="#">O nas</a>
+                <a href="#">Mapa dojazdu</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">AutoParts B2B</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <button class="header-action-button">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="hamulce.html" class="active">Hamulce</a></li>
+                <li><a href="filtry.html">Filtry</a></li>
+                <li><a href="oleje.html">Oleje</a></li>
+                <li><a href="zawieszenie.html">Zawieszenie</a></li>
+                <li><a href="silnik.html">Silnik</a></li>
+                <li><a href="wydech.html">Układ wydechowy</a></li>
+                <li><a href="elektryka.html">Elektryka</a></li>
+                <li><a href="klimatyzacja.html">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Category Header -->
+    <section class="category-header">
+        <div class="category-header-content">
+            <h1 class="category-title">Hamulce</h1>
+            <p class="category-description">Oferujemy wysokiej jakości części hamulcowe do wszystkich popularnych marek samochodów. W naszej ofercie znajdziesz klocki hamulcowe, tarcze hamulcowe, szczęki hamulcowe i inne elementy układu hamulcowego.</p>
+        </div>
+    </section>
+
+    <!-- Category Filters -->
+    <section class="category-filters">
+        <div class="category-products">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Marka samochodu</label>
+                    <select class="filter-select">
+                        <option value="">Wybierz markę</option>
+                        <option value="audi">Audi</option>
+                        <option value="bmw">BMW</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="volkswagen">Volkswagen</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Model</label>
+                    <select class="filter-select">
+                        <option value="">Wybierz model</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Rok produkcji</label>
+                    <select class="filter-select">
+                        <option value="">Wybierz rok</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Producent części</label>
+                    <select class="filter-select">
+                        <option value="">Wybierz producenta</option>
+                        <option value="brembo">Brembo</option>
+                        <option value="bosch">Bosch</option>
+                        <option value="ate">ATE</option>
+                        <option value="textar">Textar</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="category-products">
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="https://placehold.co/300x200" alt="Klocki hamulcowe Brembo" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Klocki hamulcowe Brembo P85 020</h3>
+                    <div class="product-specs">
+                        <p>Do: VW Golf VII, Audi A3, Seat Leon</p>
+                        <p>Certyfikat TÜV</p>
+                        <p>24 miesiące gwarancji</p>
+                    </div>
+                    <div class="product-price">254,99 zł</div>
+                    <div class="product-actions">
+                        <a href="#" class="action-button">Zamów</a>
+                        <a href="#" class="action-button secondary">Szczegóły</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://placehold.co/300x200" alt="Tarcze hamulcowe ATE" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Tarcze hamulcowe ATE 24.0136-0161.2</h3>
+                    <div class="product-specs">
+                        <p>Do: BMW serii 3 (F30)</p>
+                        <p>Przód</p>
+                        <p>Wentylowane</p>
+                    </div>
+                    <div class="product-price">399,99 zł</div>
+                    <div class="product-actions">
+                        <a href="#" class="action-button">Zamów</a>
+                        <a href="#" class="action-button secondary">Szczegóły</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://placehold.co/300x200" alt="Szczęki hamulcowe Bosch" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Szczęki hamulcowe Bosch 0986AB1920</h3>
+                    <div class="product-specs">
+                        <p>Do: Mercedes C-Klasa (W204)</p>
+                        <p>Tyl</p>
+                        <p>Z czujnikiem zużycia</p>
+                    </div>
+                    <div class="product-price">189,99 zł</div>
+                    <div class="product-actions">
+                        <a href="#" class="action-button">Zamów</a>
+                        <a href="#" class="action-button secondary">Szczegóły</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>AutoParts to firma z wieloletnim doświadczeniem oferująca najwyższej jakości części samochodowe dla wszystkich popularnych marek.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Przykładowa 123, 00-000 Warszawa</a></li>
+                    <li><a href="tel:+48123456789"><i class="fas fa-phone-alt"></i> +48 123 456 789</a></li>
+                    <li><a href="mailto:kontakt@autoparts.pl"><i class="fas fa-envelope"></i> kontakt@autoparts.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 16:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="#"><i class="fas fa-building"></i> O firmie</a></li>
+                    <li><a href="#"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="#"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="#"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                    <li><a href="#"><i class="fas fa-map-marked-alt"></i> Mapa dojazdu</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 AutoParts. Wszelkie prawa zastrzeżone.</p>
+            <div class="footer-links">
+                <a href="#">Polityka prywatności</a>
+                <a href="#">Regulamin</a>
+                <a href="#">Mapa strony</a>
+                <a href="#">RODO</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html> 

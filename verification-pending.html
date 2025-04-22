@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weryfikacja w toku - AutoParts B2B</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .verification-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: var(--background-color);
+        }
+
+        .verification-content {
+            max-width: 600px;
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .verification-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .verification-content h1 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .verification-content p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .verification-steps {
+            text-align: left;
+            margin: 2rem 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .verification-steps li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .verification-steps li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .back-to-home {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <div class="verification-content">
+            <div class="verification-icon">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <h1>Weryfikacja w toku</h1>
+            <p>Dziękujemy za rejestrację! Twoje konto jest obecnie w trakcie weryfikacji. Prosimy o cierpliwość podczas procesu weryfikacji.</p>
+            
+            <ul class="verification-steps">
+                <li>Sprawdź swoją skrzynkę email - wysłaliśmy do Ciebie wiadomość z linkiem weryfikacyjnym</li>
+                <li>Kliknij w link weryfikacyjny w emailu</li>
+                <li>Poczekaj na potwierdzenie weryfikacji od naszego zespołu</li>
+                <li>Po weryfikacji otrzymasz dostęp do pełnej funkcjonalności konta B2B</li>
+            </ul>
+
+            <p>Jeśli masz jakieś pytania, skontaktuj się z naszym działem obsługi klienta.</p>
+            
+            <a href="/" class="back-to-home">Powrót do strony głównej</a>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administracyjny - B2B Auto Parts</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .admin-nav a {
+            color: #333;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .admin-nav a:hover {
+            background-color: #e9ecef;
+        }
+
+        .admin-nav a.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .admin-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            color: #666;
+        }
+
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-processing {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .admin-nav ul {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Panel Administracyjny</h1>
+            <div>
+                <span id="admin-name">Witaj, Administrator</span>
+                <a href="login.html" class="btn btn-danger" style="margin-left: 15px;" id="logout-button">Wyloguj</a>
+            </div>
+        </div>
+
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="#dashboard" class="active">Dashboard</a></li>
+                <li><a href="#orders">Zamówienia</a></li>
+                <li><a href="#products">Produkty</a></li>
+                <li><a href="#users">Użytkownicy</a></li>
+                <li><a href="#settings">Ustawienia</a></li>
+            </ul>
+        </nav>
+
+        <div class="admin-content" id="admin-content-area">
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card">
+                    <h3>Nowe zamówienia</h3>
+                    <div class="value">--</div>
+                </div>
+                <div class="stat-card">
+                    <h3>W trakcie realizacji</h3>
+                    <div class="value">--</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Zakończone dzisiaj</h3>
+                    <div class="value">--</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Nowi użytkownicy</h3>
+                    <div class="value">--</div>
+                </div>
+            </div>
+
+            <h2>Ostatnie zamówienia</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Numer zamówienia</th>
+                            <th>Data</th>
+                            <th>Klient</th>
+                            <th>Wartość</th>
+                            <th>Status</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <tr><td colspan="6">Ładowanie danych...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Security Check ---
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // No token found, redirect to login
+                window.location.href = 'login.html';
+                return; // Stop further execution
+            }
+
+            // --- User Welcome ---
+            const adminName = localStorage.getItem('userName') || 'Administrator';
+            document.getElementById('admin-name').textContent = `Witaj, ${adminName}`;
+
+            // --- Logout ---
+            const logoutButton = document.getElementById('logout-button');
+            logoutButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userRole');
+                window.location.href = 'login.html';
+            });
+
+            // --- Mock Data (as before, slightly adjusted) ---
+            const mockData = {
+                stats: {
+                    newOrders: 12,
+                    inProgress: 8,
+                    completedToday: 5,
+                    newUsers: 3
+                },
+                orders: [
+                    { id: '12345', date: '2024-04-21', client: 'Firma XYZ', value: '2 500,00 zł', status: 'pending' },
+                    { id: '12344', date: '2024-04-21', client: 'Firma ABC', value: '1 800,00 zł', status: 'processing' },
+                    { id: '12343', date: '2024-04-20', client: 'Firma DEF', value: '3 200,00 zł', status: 'completed' }
+                ]
+            };
+
+            // --- Update UI Functions ---
+            function updateStats() {
+                const statValues = Object.values(mockData.stats);
+                document.querySelectorAll('#stats-grid .value').forEach((el, index) => {
+                    el.textContent = statValues[index];
+                });
+            }
+
+            function updateOrdersTable() {
+                const tbody = document.getElementById('orders-tbody');
+                tbody.innerHTML = ''; // Clear loading/previous data
+
+                if (mockData.orders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6">Brak ostatnich zamówień.</td></tr>';
+                    return;
+                }
+
+                mockData.orders.forEach(order => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>#${order.id}</td>
+                        <td>${order.date}</td>
+                        <td>${order.client}</td>
+                        <td>${order.value}</td>
+                        <td><span class="status-badge status-${order.status}">${getStatusText(order.status)}</span></td>
+                        <td class="action-buttons">
+                            ${getActionButtons(order.status, order.id)}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                 // Re-add event listeners for action buttons
+                 document.querySelectorAll('.action-buttons button').forEach(btn => {
+                     btn.addEventListener('click', handleOrderAction);
+                 });
+            }
+
+            function getStatusText(status) {
+                const statusMap = { pending: 'Oczekujące', processing: 'W realizacji', completed: 'Zakończone', cancelled: 'Anulowane' };
+                return statusMap[status] || status;
+            }
+
+            function getActionButtons(status, orderId) {
+                 const buttons = {
+                    pending: `
+                        <button class="btn btn-primary" data-action="details" data-id="${orderId}">Szczegóły</button>
+                        <button class="btn btn-primary" data-action="process" data-id="${orderId}">Przetwórz</button>
+                    `,
+                    processing: `
+                        <button class="btn btn-primary" data-action="details" data-id="${orderId}">Szczegóły</button>
+                        <button class="btn btn-primary" data-action="complete" data-id="${orderId}">Zakończ</button>
+                    `,
+                    completed: `
+                        <button class="btn btn-primary" data-action="details" data-id="${orderId}">Szczegóły</button>
+                    `,
+                    cancelled: `
+                        <button class="btn btn-primary" data-action="details" data-id="${orderId}">Szczegóły</button>
+                    `
+                 };
+                 return buttons[status] || `<button class="btn btn-primary" data-action="details" data-id="${orderId}">Szczegóły</button>`;
+            }
+
+            function handleOrderAction(e) {
+                const action = e.target.dataset.action;
+                const orderId = e.target.dataset.id; // Get ID from data attribute
+
+                console.log(`Action: ${action}, Order ID: ${orderId}`); // For debugging
+
+                switch(action) {
+                    case 'details':
+                        // Redirect to a detail page (can be implemented later)
+                        // For now, just log it
+                        console.log(`Navigating to details for order ${orderId}`);
+                        // window.location.href = `order-details.html?id=${orderId}`; // Uncomment when ready
+                        alert(`Wyświetlanie szczegółów zamówienia #${orderId}`);
+                        break;
+                    case 'process':
+                        updateOrderStatus(orderId, 'processing');
+                        break;
+                    case 'complete':
+                        updateOrderStatus(orderId, 'completed');
+                        break;
+                    // Add cases for other potential actions if needed
+                }
+            }
+
+            function updateOrderStatus(orderId, newStatus) {
+                // In a real app, this would be an API call
+                const order = mockData.orders.find(o => o.id === orderId);
+                if (order) {
+                    order.status = newStatus;
+                    updateOrdersTable(); // Refresh the table to show the change
+                }
+            }
+
+            // --- Navigation ---
+            document.querySelectorAll('.admin-nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default anchor jump
+                    const targetId = link.getAttribute('href').substring(1); // e.g., "dashboard", "orders"
+
+                    // Highlight active link
+                    document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+                    link.classList.add('active');
+
+                    // --- Content Loading (Basic Placeholder) ---
+                    const contentArea = document.getElementById('admin-content-area');
+                    // In a real app, you would fetch and inject content based on targetId
+                    // For now, we just show/hide the existing dashboard content as an example
+                    if (targetId === 'dashboard') {
+                         contentArea.innerHTML = `
+                            <div class="stats-grid" id="stats-grid">
+                                <div class="stat-card"><h3>Nowe zamówienia</h3><div class="value">--</div></div>
+                                <div class="stat-card"><h3>W trakcie realizacji</h3><div class="value">--</div></div>
+                                <div class="stat-card"><h3>Zakończone dzisiaj</h3><div class="value">--</div></div>
+                                <div class="stat-card"><h3>Nowi użytkownicy</h3><div class="value">--</div></div>
+                            </div>
+                            <h2>Ostatnie zamówienia</h2>
+                            <div class="table-container">
+                                <table>
+                                    <thead><tr><th>Numer zamówienia</th><th>Data</th><th>Klient</th><th>Wartość</th><th>Status</th><th>Akcje</th></tr></thead>
+                                    <tbody id="orders-tbody"><tr><td colspan="6">Ładowanie danych...</td></tr></tbody>
+                                </table>
+                            </div>`;
+                         updateStats();
+                         updateOrdersTable();
+                    } else {
+                         contentArea.innerHTML = `<h2>Sekcja: ${link.textContent}</h2><p>Zawartość dla sekcji ${link.textContent} pojawi się tutaj.</p>`;
+                    }
+                    console.log(`Navigated to section: ${targetId}`);
+                });
+            });
+
+            // Initial Load
+            updateStats();
+            updateOrdersTable();
+        });
+    </script>
+</body>
+</html> 

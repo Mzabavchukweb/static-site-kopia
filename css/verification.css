@@ -1,0 +1,176 @@
+.verification-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.verification-icon {
+    font-size: 4rem;
+    color: #007bff;
+    margin-bottom: 1.5rem;
+    animation: bounce 2s infinite;
+}
+
+.verification-container h1 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.verification-message {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.verification-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.verification-info h2 {
+    color: #444;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.verification-info ol {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.verification-info li {
+    color: #555;
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.verification-actions {
+    margin: 2rem 0;
+}
+
+.verification-actions p {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.resend-button {
+    background-color: #fff;
+    color: #007bff;
+    border: 2px solid #007bff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.resend-button:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.resend-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.resend-button i {
+    font-size: 1rem;
+}
+
+.resend-message {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    display: none;
+}
+
+.resend-message.success {
+    display: block;
+    background-color: #f1f9f1;
+    border: 1px solid #c8e6c9;
+    color: #28a745;
+}
+
+.resend-message.error {
+    display: block;
+    background-color: #fff3f3;
+    border: 1px solid #ffcdd2;
+    color: #dc3545;
+}
+
+.help-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.help-section p {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.contact-link {
+    color: #007bff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.verification-container {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .verification-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .verification-icon {
+        font-size: 3rem;
+    }
+
+    .verification-container h1 {
+        font-size: 1.5rem;
+    }
+} 

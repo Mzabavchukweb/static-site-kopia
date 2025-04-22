@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szczegóły zamówienia - AutoParts B2B</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .order-details-page {
+            padding: 2rem;
+            background: var(--background-color);
+            min-height: 100vh;
+        }
+
+        .order-details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--white);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Order Status */
+        .order-status-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .order-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .order-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-processing {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .status-completed {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-cancelled {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        /* Order Details */
+        .order-details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .order-info {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
+        }
+
+        .info-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .info-value {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* Order Items */
+        .order-items {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .items-table th,
+        .items-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .items-table th {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .items-table td {
+            color: var(--text-color);
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: var(--background-color);
+            padding: 0.5rem;
+            border-radius: var(--radius);
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .item-title {
+            font-weight: 500;
+        }
+
+        .item-specs {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: var(--background-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-total {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Order Actions */
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+            color: var(--white);
+        }
+
+        @media (max-width: 1024px) {
+            .order-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="order-details-page">
+        <div class="order-details-container">
+            <div class="page-header">
+                <h1 class="page-title">Szczegóły zamówienia</h1>
+                <a href="orders.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Powrót do zamówień
+                </a>
+            </div>
+
+            <!-- Order Status -->
+            <div class="order-status-section">
+                <div class="status-header">
+                    <div>
+                        <div class="order-number">#123456</div>
+                        <div class="order-date">2024-03-20</div>
+                    </div>
+                    <div class="order-status status-processing">
+                        <i class="fas fa-clock"></i>
+                        Zamówienie w trakcie przetwarzania
+                    </div>
+                </div>
+                <div class="status-info">
+                    <p><i class="fas fa-info-circle"></i> Twoje zamówienie zostało przyjęte i jest w trakcie przetwarzania. Skontaktujemy się z Tobą w celu potwierdzenia dostępności produktów i szczegółów realizacji.</p>
+                </div>
+            </div>
+
+            <div class="order-details-grid">
+                <!-- Order Info -->
+                <div class="order-info">
+                    <div class="info-section">
+                        <h2 class="section-title">Dane do faktury</h2>
+                        <div class="info-grid">
+                            <div class="info-group">
+                                <span class="info-label">Nazwa firmy</span>
+                                <span class="info-value">Auto Serwis Sp. z o.o.</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">NIP</span>
+                                <span class="info-value">1234567890</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">Imię i nazwisko</span>
+                                <span class="info-value">Jan Kowalski</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">Email</span>
+                                <span class="info-value">jan.kowalski@autoserwis.pl</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">Telefon</span>
+                                <span class="info-value">+48 123 456 789</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <h2 class="section-title">Adres dostawy</h2>
+                        <div class="info-grid">
+                            <div class="info-group">
+                                <span class="info-label">Ulica</span>
+                                <span class="info-value">Przykładowa 123</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">Kod pocztowy</span>
+                                <span class="info-value">00-000</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">Miasto</span>
+                                <span class="info-value">Warszawa</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">Kraj</span>
+                                <span class="info-value">Polska</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <h2 class="section-title">Sposób dostawy i płatności</h2>
+                        <div class="info-grid">
+                            <div class="info-group">
+                                <span class="info-label">Sposób dostawy</span>
+                                <span class="info-value">Dostawa standardowa (2-3 dni)</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">Sposób płatności</span>
+                                <span class="info-value">Przelew bankowy</span>
+                            </div>
+                            <div class="info-group">
+                                <span class="info-label">Termin dostawy</span>
+                                <span class="info-value">2024-03-23</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Items and Summary -->
+                <div class="order-items">
+                    <h2 class="section-title">Produkty</h2>
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>Produkt</th>
+                                <th>Ilość</th>
+                                <th>Cena</th>
+                                <th>Razem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="item-info">
+                                        <span class="item-title">Klocki hamulcowe Bosch</span>
+                                        <span class="item-specs">OEM: 0986AB1234</span>
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>149,99 zł</td>
+                                <td>149,99 zł</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="item-info">
+                                        <span class="item-title">Filtr oleju Mann</span>
+                                        <span class="item-specs">OEM: 0986AB5678</span>
+                                    </div>
+                                </td>
+                                <td>2</td>
+                                <td>39,99 zł</td>
+                                <td>79,98 zł</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="item-info">
+                                        <span class="item-title">Świece zapłonowe NGK</span>
+                                        <span class="item-specs">OEM: 0986AB9012</span>
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>89,99 zł</td>
+                                <td>89,99 zł</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Szacunkowa wartość produktów:</span>
+                            <span>319,96 zł</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Proponowany rabat B2B:</span>
+                            <span>-31,99 zł</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Szacunkowy koszt dostawy:</span>
+                            <span>0,00 zł</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span>Szacunkowa kwota:</span>
+                            <span>287,97 zł</span>
+                        </div>
+                        <div class="summary-note">
+                            <p><i class="fas fa-info-circle"></i> Ostateczna cena zostanie potwierdzona po weryfikacji dostępności produktów i warunków dostawy.</p>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <a href="#" class="action-btn btn-primary">Złóż podobne zamówienie</a>
+                        <a href="#" class="action-btn btn-secondary">Anuluj zamówienie</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/scripts.js"></script>
+</body>
+</html> 

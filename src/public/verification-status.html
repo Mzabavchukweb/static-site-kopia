@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weryfikacja konta - AutoParts B2B</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .verification-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .verification-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .success .verification-icon {
+            color: #28a745;
+        }
+        .error .verification-icon {
+            color: #dc3545;
+        }
+        .verification-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .verification-message {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #555;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #2563EB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #1D4ED8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="verification-container success">
+            <i class="fas fa-check-circle verification-icon"></i>
+            <h1 class="verification-title">Weryfikacja w toku</h1>
+            <p class="verification-message">Twoja weryfikacja jest przetwarzana...</p>
+            <p class="verification-message">Ta strona zostanie zaktualizowana automatycznie po zakończeniu procesu weryfikacji.</p>
+            <p class="verification-message">Jeśli nie nastąpi automatyczne przekierowanie, oznacza to, że żądanie weryfikacji jest nieważne lub wygasło.</p>
+            <a href="/" class="btn">Powrót do strony głównej</a>
+        </div>
+    </div>
+
+    <script>
+        // Skrypt przekieruje na właściwy endpoint weryfikacji
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            
+            if (token) {
+                // Przekieruj na właściwy endpoint API do weryfikacji
+                window.location.href = `/api/auth/verify?token=${token}`;
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potwierdzenie zamówienia - AutoParts B2B</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .confirmation-page {
+            padding: 4rem 2rem;
+            background: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirmation-container {
+            max-width: 800px;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .confirmation-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .confirmation-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .order-details {
+            background: var(--background-color);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .order-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-group {
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .order-summary {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .summary-total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding: 2rem;
+            }
+
+            .order-info {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-page">
+        <div class="confirmation-container">
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h1 class="confirmation-title">Zapytanie ofertowe zostało wysłane</h1>
+            <p class="confirmation-subtitle">Dziękujemy za przesłanie zapytania. Skontaktujemy się z Tobą w celu potwierdzenia dostępności produktów i szczegółów realizacji.</p>
+
+            <div class="order-details">
+                <h2>Szczegóły zapytania</h2>
+                <div class="details-grid">
+                    <div class="detail-group">
+                        <span class="detail-label">Numer zapytania</span>
+                        <span class="detail-value">#123456</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Data</span>
+                        <span class="detail-value">2024-03-20</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value status-processing">
+                            <i class="fas fa-clock"></i>
+                            W trakcie przetwarzania
+                        </span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Preferowany termin realizacji</span>
+                        <span class="detail-value">2024-03-23</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <h2>Podsumowanie zapytania</h2>
+                <div class="summary-row">
+                    <span>Szacunkowa wartość produktów:</span>
+                    <span>319,96 zł</span>
+                </div>
+                <div class="summary-row">
+                    <span>Proponowany rabat B2B:</span>
+                    <span>-31,99 zł</span>
+                </div>
+                <div class="summary-row">
+                    <span>Szacunkowy koszt dostawy:</span>
+                    <span>0,00 zł</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Szacunkowa kwota:</span>
+                    <span>287,97 zł</span>
+                </div>
+                <div class="summary-note">
+                    <p><i class="fas fa-info-circle"></i> Ostateczna cena zostanie potwierdzona po weryfikacji dostępności produktów i warunków dostawy.</p>
+                </div>
+            </div>
+
+            <div class="confirmation-actions">
+                <a href="catalog.html" class="action-btn btn-primary">
+                    <i class="fas fa-shopping-cart"></i>
+                    Złóż kolejne zapytanie
+                </a>
+                <a href="orders.html" class="action-btn btn-secondary">
+                    <i class="fas fa-list"></i>
+                    Zobacz historię zapytań
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="js/scripts.js"></script>
+</body>
+</html> 

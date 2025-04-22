@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog produktów - AutoParts B2B</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --primary-light: #60A5FA;
+            --secondary-color: #F59E0B;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 1rem 0;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        /* Catalog Header */
+        .catalog-header {
+            background: var(--white);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .catalog-header h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .catalog-header p {
+            color: var(--text-light);
+            max-width: 800px;
+        }
+
+        /* Catalog Navigation */
+        .catalog-nav {
+            background: var(--white);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .catalog-nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .catalog-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+        }
+
+        .catalog-nav a:hover {
+            background: var(--primary-light);
+            color: var(--white);
+        }
+
+        /* Catalog Grid */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-content {
+            padding: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .category-description {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: background 0.3s ease;
+        }
+
+        .category-link:hover {
+            background: var(--primary-dark);
+        }
+
+        /* B2B Notice */
+        .b2b-notice {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .b2b-notice h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .b2b-notice p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .b2b-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: background 0.3s ease;
+        }
+
+        .b2b-button:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .catalog-nav ul {
+                flex-direction: column;
+            }
+
+            .catalog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Catalog Styles */
+        .catalog-page {
+            padding: 2rem;
+            background: var(--background-color);
+            min-height: 100vh;
+        }
+
+        .catalog-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        /* Filters Sidebar */
+        .filters-sidebar {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+
+        .filter-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-option input[type="checkbox"] {
+            width: 1.1rem;
+            height: 1.1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+
+        .filter-option label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: var(--background-color);
+            padding: 1rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .product-specs {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Search and Sort */
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .sort-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .sort-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--white);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 1024px) {
+            .catalog-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .catalog-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .sort-options {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="catalog-page">
+        <div class="catalog-container">
+            <!-- Filters Sidebar -->
+            <aside class="filters-sidebar">
+                <div class="filter-section">
+                    <h3>Kategorie</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <input type="checkbox" id="hamulce">
+                            <label for="hamulce">Hamulce</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="filtry">
+                            <label for="filtry">Filtry</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="oleje">
+                            <label for="oleje">Oleje</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="zawieszenie">
+                            <label for="zawieszenie">Zawieszenie</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="silnik">
+                            <label for="silnik">Silnik</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Marka</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <input type="checkbox" id="audi">
+                            <label for="audi">Audi</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="bmw">
+                            <label for="bmw">BMW</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="mercedes">
+                            <label for="mercedes">Mercedes</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="vw">
+                            <label for="vw">Volkswagen</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Cena</h3>
+                    <div class="price-range">
+                        <input type="number" class="price-input" placeholder="Od">
+                        <input type="number" class="price-input" placeholder="Do">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Dostępność</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <input type="checkbox" id="dostepne">
+                            <label for="dostepne">Dostępne</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="zamowienie">
+                            <label for="zamowienie">Na zamówienie</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main>
+                <div class="catalog-header">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Szukaj produktów...">
+                    </div>
+                    <div class="sort-options">
+                        <span class="sort-label">Sortuj według:</span>
+                        <select class="sort-select">
+                            <option value="price-asc">Cena: od najniższej</option>
+                            <option value="price-desc">Cena: od najwyższej</option>
+                            <option value="name-asc">Nazwa: A-Z</option>
+                            <option value="name-desc">Nazwa: Z-A</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="products-grid">
+                    <!-- Statyczne karty produktów zostaną usunięte -->
+                    <!-- JavaScript wygeneruje karty produktów tutaj -->
+                </div>
+
+                <div class="pagination">
+                    <!-- Logika paginacji może wymagać dostosowania -->
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="js/scripts.js"></script>
+</body>
+</html> 

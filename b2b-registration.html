@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja B2B - AutoParts B2B</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* B2B Registration Form Styles */
+        .registration-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: var(--background-color);
+        }
+
+        .registration-container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .registration-info {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .registration-info h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .registration-info ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .registration-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .registration-info i {
+            font-size: 1.25rem;
+            color: var(--secondary-color);
+        }
+
+        .registration-form {
+            padding: 3rem;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-header h1 {
+            font-size: 1.75rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: var(--text-light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-footer {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .submit-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .login-link {
+            margin-top: 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .registration-container {
+                grid-template-columns: 1fr;
+            }
+
+            .registration-info {
+                display: none;
+            }
+
+            .registration-form {
+                padding: 2rem;
+            }
+        }
+
+        /* Add or adjust styles as needed, especially for new elements */
+        .password-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-container input {
+            padding-right: 40px !important; /* Make space for the toggle */
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1px; /* Adjust positioning */
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            height: 10px; /* Visual height */
+            background: var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        .password-strength div {
+             height: 100%;
+             width: 0%; /* Starts at 0 */
+             background-color: var(--danger-color);
+             transition: width 0.3s ease, background-color 0.3s ease;
+             border-radius: var(--radius-sm);
+        }
+        .password-strength.strength-0 div { width: 0%; background-color: var(--danger-color); }
+        .password-strength.strength-1 div { width: 25%; background-color: var(--danger-color); }
+        .password-strength.strength-2 div { width: 50%; background-color: var(--warning-color); }
+        .password-strength.strength-3 div { width: 75%; background-color: var(--success-color); }
+        .password-strength.strength-4 div { width: 100%; background-color: var(--success-dark); }
+
+        .password-requirements {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            padding-left: 1rem;
+            list-style: disc;
+        }
+         .password-requirements li {
+             margin-bottom: 0.25rem;
+         }
+
+        .validation-messages {
+            margin-bottom: 1.5rem;
+            display: none; /* Initially hidden */
+        }
+
+        .validation-message {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+        }
+
+        .validation-message.error {
+            background-color: var(--danger-light);
+            border-color: var(--danger-color);
+            color: var(--danger-dark);
+        }
+
+        .validation-message.success {
+            background-color: var(--success-light);
+            border-color: var(--success-color);
+            color: var(--success-dark);
+        }
+
+         .terms {
+            display: flex;
+            align-items: flex-start; /* Align items top */
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .terms input[type="checkbox"] {
+            margin-top: 0.2rem; /* Align checkbox slightly */
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary-color);
+        }
+
+        .terms label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        .terms label a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+         .terms label a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustments if needed */
+        @media (max-width: 768px) {
+            .registration-container {
+                grid-template-columns: 1fr;
+            }
+            .registration-info { display: none; }
+            .registration-form { padding: 2rem; }
+            .form-row { grid-template-columns: 1fr; } /* Stack fields on smaller screens */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="registration-page">
+        <div class="registration-container">
+            <div class="registration-info">
+                <h2>Korzyści z rejestracji B2B</h2>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Dostęp do specjalnych cen hurtowych</li>
+                    <li><i class="fas fa-check-circle"></i> Szybka realizacja zamówień</li>
+                    <li><i class="fas fa-check-circle"></i> Wsparcie techniczne 24/7</li>
+                    <li><i class="fas fa-check-circle"></i> Program lojalnościowy</li>
+                    <li><i class="fas fa-check-circle"></i> Dostęp do nowości i promocji</li>
+                </ul>
+            </div>
+            <div class="registration-form">
+                <div class="form-header">
+                    <h1>Rejestracja konta B2B</h1>
+                    <p>Wypełnij formularz, aby utworzyć konto biznesowe</p>
+                </div>
+                
+                <div id="validationMessages" class="validation-messages"></div>
+                
+                <form id="b2bRegistrationForm">
+                    <div class="form-group">
+                        <label for="companyName">Nazwa firmy *</label>
+                        <input type="text" id="companyName" name="companyName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nip">NIP *</label>
+                        <input type="text" id="nip" name="nip" required pattern="\d{10}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Adres email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Telefon kontaktowy</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Hasło *</label>
+                        <div class="password-input-container">
+                            <input type="password" id="password" name="password" required>
+                            <button type="button" id="passwordToggle" class="password-toggle">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div id="passwordStrength" class="password-strength">
+                            <div></div>
+                        </div>
+                        <ul id="passwordRequirements" class="password-requirements">
+                            <li>Minimum 8 znaków</li>
+                            <li>Przynajmniej jedna wielka litera</li>
+                            <li>Przynajmniej jedna mała litera</li>
+                            <li>Przynajmniej jedna cyfra</li>
+                            <li>Przynajmniej jeden znak specjalny</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Potwierdź hasło *</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="terms" required>
+                            Akceptuję <a href="/terms.html" target="_blank">regulamin</a> i <a href="/privacy.html" target="_blank">politykę prywatności</a> *
+                        </label>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="submit" class="submit-btn">Zarejestruj się</button>
+                        <p class="login-link">
+                            Masz już konto? <a href="/login.html">Zaloguj się</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/registration.js"></script>
+</body>
+</html> 
