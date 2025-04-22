@@ -1,116 +1,88 @@
-# B2B Registration System
+# AutoParts B2B Platform
 
-System rejestracji B2B z walidacją danych, weryfikacją email i zabezpieczeniami.
+System B2B dla hurtowni części samochodowych.
 
-## Funkcje
+## Konfiguracja środowiska
 
-- Rejestracja użytkowników B2B
-- Walidacja danych formularza
-- Weryfikacja email
-- Zabezpieczenia (CSRF, Rate Limiting, Hashowanie haseł)
-- Responsywny interfejs
-
-## Wymagania
-
-- Node.js (v14 lub nowszy)
-- npm (v6 lub nowszy)
-
-## Instalacja
-
-1. Sklonuj repozytorium:
-```bash
-git clone https://github.com/your-username/b2b-registration.git
-cd b2b-registration
-```
-
+1. Sklonuj repozytorium
 2. Zainstaluj zależności:
 ```bash
+cd backend
 npm install
 ```
 
-3. Skopiuj plik konfiguracyjny:
-```bash
-cp .env.example .env
+3. Utwórz plik `.env` w katalogu `backend` z następującą zawartością:
+```
+# API Keys
+RESEND_API_KEY=your_resend_api_key_here
+FROM_EMAIL=your_verified_email@domain.com
+
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_here
+
+# Database Configuration
+MONGODB_URI=mongodb://localhost:27017/auto-parts-b2b
+
+# Frontend Configuration
+FRONTEND_URL=http://localhost:3000
+
+# REGON API Configuration
+REGON_API_KEY=your_regon_api_key_here
 ```
 
-4. Edytuj plik `.env` i ustaw odpowiednie wartości:
-```env
-PORT=3000
-NODE_ENV=development
-SMTP_HOST=your-smtp-host
-SMTP_PORT=587
-SMTP_USER=your-email
-SMTP_PASS=your-password
-SMTP_FROM=noreply@your-domain.com
-```
-
-## Uruchomienie
-
-Development:
+4. Uruchom serwer deweloperski:
 ```bash
 npm run dev
 ```
 
-Production:
+## Konfiguracja Resend
+
+1. Zarejestruj się na [Resend](https://resend.com)
+2. Uzyskaj klucz API
+3. Zweryfikuj swoją domenę
+4. Zaktualizuj zmienne środowiskowe:
+   - `RESEND_API_KEY` - Twój klucz API z Resend
+   - `FROM_EMAIL` - Adres email z Twojej zweryfikowanej domeny
+
+## Funkcjonalności
+
+- System rejestracji i logowania B2B
+- Weryfikacja email przy rejestracji
+- Katalog produktów
+- System zamówień
+- Panel administracyjny
+
+## Technologie
+
+- Node.js
+- Express.js
+- MongoDB
+- Resend (system mailowy)
+- JWT (autoryzacja)
+
+## Rozwój
+
+1. Utwórz nową gałąź dla swojej funkcjonalności:
 ```bash
-npm start
+git checkout -b feature/nazwa-funkcjonalności
 ```
 
-## API Endpoints
-
-### POST /api/auth/register
-Rejestracja nowego użytkownika.
-
-Request body:
-```json
-{
-    "firstName": "string",
-    "lastName": "string",
-    "email": "string",
-    "phone": "string",
-    "companyName": "string",
-    "nip": "string",
-    "street": "string",
-    "postalCode": "string",
-    "city": "string",
-    "password": "string",
-    "confirmPassword": "string",
-    "termsAccepted": boolean
-}
+2. Wprowadź zmiany i zatwierdź je:
+```bash
+git add .
+git commit -m "Opis zmian"
 ```
 
-Response:
-- 201: Użytkownik zarejestrowany
-- 400: Błąd walidacji
-- 500: Błąd serwera
-
-### GET /api/auth/verify/:token
-Weryfikacja użytkownika.
-
-Response:
-- 200: Weryfikacja udana
-- 400: Nieprawidłowy token
-- 500: Błąd serwera
+3. Wypchnij zmiany do repozytorium:
+```bash
+git push origin feature/nazwa-funkcjonalności
+```
 
 ## Testy
 
-Uruchom testy:
 ```bash
 npm test
 ```
-
-Testy z pokryciem:
-```bash
-npm run test:coverage
-```
-
-## Bezpieczeństwo
-
-- CSRF Protection
-- Rate Limiting
-- Hashowanie haseł (bcrypt)
-- Walidacja danych
-- CORS Policy
 
 ## Licencja
 
