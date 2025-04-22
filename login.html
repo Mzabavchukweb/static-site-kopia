@@ -3,276 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logowanie - B2B Auto Parts</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        .login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .form-group label {
-            font-weight: 500;
-            color: #333;
-        }
-
-        .form-group input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .login-button {
-            background-color: #007bff;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            position: relative;
-        }
-
-        .login-button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .login-button.loading::after {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            top: 50%;
-            left: 50%;
-            margin: -8px 0 0 -8px;
-            border: 2px solid #fff;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .login-links {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .login-links a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .login-links a:hover {
-            text-decoration: underline;
-        }
-
-        .admin-login {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            text-align: center;
-        }
-
-        .admin-login a {
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .admin-login a:hover {
-            color: #333;
-        }
-
-        .error-message {
-            color: #dc3545;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .form-group.error input {
-            border-color: #dc3545;
-        }
-
-        @media (max-width: 480px) {
-            .login-container {
-                margin: 20px;
-                padding: 20px;
-            }
-        }
-    </style>
+    <title>Logowanie - AutoParts B2B</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="login-container">
-        <div class="login-header">
-            <h1>Logowanie</h1>
-            <p>Zaloguj się do swojego konta B2B</p>
-        </div>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-center mb-8">Logowanie do systemu B2B</h2>
 
-        <form class="login-form" id="loginForm">
-            <div class="form-group">
-                <label for="email">Adres e-mail</label>
-                <input type="email" id="email" name="email" required>
-                <div class="error-message" id="emailError"></div>
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" required
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
-            <div class="form-group">
-                <label for="password">Hasło</label>
-                <input type="password" id="password" name="password" required>
-                <div class="error-message" id="passwordError"></div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Hasło</label>
+                    <input type="password" id="password" name="password" required
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
-            <div class="remember-me">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Zapamiętaj mnie</label>
+                <div>
+                    <button type="submit"
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Zaloguj się
+                    </button>
+            </div>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Nie masz jeszcze konta? 
+                    <a href="/b2b-registration.html" class="font-medium text-blue-600 hover:text-blue-500">
+                        Zarejestruj się
+                    </a>
+                </p>
             </div>
 
-            <button type="submit" class="login-button">Zaloguj się</button>
-
-            <div class="login-links">
-                <a href="b2b-registration.html">Załóż konto B2B</a>
-                <a href="#">Zapomniałeś hasła?</a>
+            <div id="errorMessage" class="mt-4 text-center text-red-600 hidden"></div>
+            <div id="successMessage" class="mt-4 text-center text-green-600 hidden"></div>
             </div>
-
-            <div class="admin-login">
-                <a href="#" id="adminLoginLink">Logowanie dla administratora</a>
-            </div>
-        </form>
     </div>
 
     <script>
-        const API_URL = 'http://localhost:5500/api';
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
 
-        function showError(element, message) {
-            const errorElement = document.getElementById(element + 'Error');
-            const formGroup = errorElement.parentElement;
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-            formGroup.classList.add('error');
-        }
-
-        function clearErrors() {
-            document.querySelectorAll('.error-message').forEach(el => {
-                el.style.display = 'none';
-                el.parentElement.classList.remove('error');
-            });
-        }
-
-        async function loginUser(email, password) {
-            const button = document.querySelector('.login-button');
-            button.disabled = true;
-            button.classList.add('loading');
+            // Reset messages
+            errorDiv.classList.add('hidden');
+            successDiv.classList.add('hidden');
 
             try {
-                console.log('Attempting login with:', { email });
-                const response = await fetch(`${API_URL}/auth/login`, {
+                const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({ email, password })
                 });
 
                 const data = await response.json();
-                console.log('Server response:', data);
 
-                if (!response.ok) {
-                    throw new Error(data.message || 'Błąd logowania');
-                }
-
-                // Save token and user data
+                if (data.success) {
+                    // Store token and user data
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
 
-                return data;
-            } catch (error) {
-                console.error('Login error:', error);
-                throw error;
-            } finally {
-                button.disabled = false;
-                button.classList.remove('loading');
-            }
-        }
+                    // Show success message
+                    successDiv.textContent = data.message;
+                    successDiv.classList.remove('hidden');
 
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            clearErrors();
-
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-
-            try {
-                const response = await loginUser(email, password);
-                console.log('Login successful:', response);
-                
-                if (response.user.role === 'admin') {
-                    window.location.href = 'admin.html';
+                    // Redirect to account page after successful login
+                    setTimeout(() => {
+                        window.location.href = '/account.html';
+                    }, 1000);
                 } else {
-                    window.location.href = 'account.html';
+                    // Show error message
+                    errorDiv.textContent = data.message;
+                    errorDiv.classList.remove('hidden');
                 }
             } catch (error) {
-                console.error('Form submission error:', error);
-                showError('password', error.message || 'Wystąpił błąd podczas logowania');
-            }
-        });
-
-        document.getElementById('adminLoginLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            this.classList.toggle('active');
-            const header = document.querySelector('.login-header h1');
-            const subheader = document.querySelector('.login-header p');
-            
-            if (this.classList.contains('active')) {
-                header.textContent = 'Logowanie administratora';
-                subheader.textContent = 'Zaloguj się do panelu administracyjnego';
-                this.textContent = 'Logowanie dla klienta B2B';
-            } else {
-                header.textContent = 'Logowanie';
-                subheader.textContent = 'Zaloguj się do swojego konta B2B';
-                this.textContent = 'Logowanie dla administratora';
+                console.error('Login error:', error);
+                errorDiv.textContent = 'Wystąpił błąd podczas logowania. Spróbuj ponownie później.';
+                errorDiv.classList.remove('hidden');
             }
         });
     </script>

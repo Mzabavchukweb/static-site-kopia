@@ -3,381 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejestracja B2B - AutoParts B2B</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* B2B Registration Form Styles */
-        .registration-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            background: var(--background-color);
-        }
-
-        .registration-container {
-            max-width: 800px;
-            width: 100%;
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .registration-info {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: var(--white);
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .registration-info h2 {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .registration-info ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .registration-info li {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .registration-info i {
-            font-size: 1.25rem;
-            color: var(--secondary-color);
-        }
-
-        .registration-form {
-            padding: 3rem;
-        }
-
-        .form-header {
-            margin-bottom: 2rem;
-        }
-
-        .form-header h1 {
-            font-size: 1.75rem;
-            color: var(--text-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-header p {
-            color: var(--text-light);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-footer {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .submit-btn {
-            background: var(--primary-color);
-            color: var(--white);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: var(--radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .submit-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-
-        .login-link {
-            margin-top: 1rem;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .login-link a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .registration-container {
-                grid-template-columns: 1fr;
-            }
-
-            .registration-info {
-                display: none;
-            }
-
-            .registration-form {
-                padding: 2rem;
-            }
-        }
-
-        /* Add or adjust styles as needed, especially for new elements */
-        .password-input-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .password-input-container input {
-            padding-right: 40px !important; /* Make space for the toggle */
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 1px; /* Adjust positioning */
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-light);
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .password-toggle:hover {
-            color: var(--primary-color);
-        }
-
-        .password-strength {
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            height: 10px; /* Visual height */
-            background: var(--border-color);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-        }
-        .password-strength div {
-             height: 100%;
-             width: 0%; /* Starts at 0 */
-             background-color: var(--danger-color);
-             transition: width 0.3s ease, background-color 0.3s ease;
-             border-radius: var(--radius-sm);
-        }
-        .password-strength.strength-0 div { width: 0%; background-color: var(--danger-color); }
-        .password-strength.strength-1 div { width: 25%; background-color: var(--danger-color); }
-        .password-strength.strength-2 div { width: 50%; background-color: var(--warning-color); }
-        .password-strength.strength-3 div { width: 75%; background-color: var(--success-color); }
-        .password-strength.strength-4 div { width: 100%; background-color: var(--success-dark); }
-
-        .password-requirements {
-            margin-top: 0.75rem;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            padding-left: 1rem;
-            list-style: disc;
-        }
-         .password-requirements li {
-             margin-bottom: 0.25rem;
-         }
-
-        .validation-messages {
-            margin-bottom: 1.5rem;
-            display: none; /* Initially hidden */
-        }
-
-        .validation-message {
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: var(--radius);
-            font-size: 0.9rem;
-            border: 1px solid transparent;
-        }
-
-        .validation-message.error {
-            background-color: var(--danger-light);
-            border-color: var(--danger-color);
-            color: var(--danger-dark);
-        }
-
-        .validation-message.success {
-            background-color: var(--success-light);
-            border-color: var(--success-color);
-            color: var(--success-dark);
-        }
-
-         .terms {
-            display: flex;
-            align-items: flex-start; /* Align items top */
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-        }
-
-        .terms input[type="checkbox"] {
-            margin-top: 0.2rem; /* Align checkbox slightly */
-            width: 16px;
-            height: 16px;
-            accent-color: var(--primary-color);
-        }
-
-        .terms label {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            font-weight: 400;
-            line-height: 1.4;
-        }
-        .terms label a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-         .terms label a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive adjustments if needed */
-        @media (max-width: 768px) {
-            .registration-container {
-                grid-template-columns: 1fr;
-            }
-            .registration-info { display: none; }
-            .registration-form { padding: 2rem; }
-            .form-row { grid-template-columns: 1fr; } /* Stack fields on smaller screens */
-        }
-
-    </style>
+    <title>Rejestracja - AutoParts B2B</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="registration-page">
-        <div class="registration-container">
-            <div class="registration-info">
-                <h2>Korzyści z rejestracji B2B</h2>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Dostęp do specjalnych cen hurtowych</li>
-                    <li><i class="fas fa-check-circle"></i> Szybka realizacja zamówień</li>
-                    <li><i class="fas fa-check-circle"></i> Wsparcie techniczne 24/7</li>
-                    <li><i class="fas fa-check-circle"></i> Program lojalnościowy</li>
-                    <li><i class="fas fa-check-circle"></i> Dostęp do nowości i promocji</li>
-                </ul>
-            </div>
-            <div class="registration-form">
-                <div class="form-header">
-                    <h1>Rejestracja konta B2B</h1>
-                    <p>Wypełnij formularz, aby utworzyć konto biznesowe</p>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-center mb-8">Rejestracja konta B2B</h2>
+            
+            <form id="registrationForm" class="space-y-6">
+                <div>
+                    <label for="companyName" class="block text-sm font-medium text-gray-700">Nazwa firmy</label>
+                    <input type="text" id="companyName" name="companyName" required
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 </div>
-                
-                <div id="validationMessages" class="validation-messages"></div>
-                
-                <form id="b2bRegistrationForm">
-                    <div class="form-group">
-                        <label for="companyName">Nazwa firmy *</label>
-                        <input type="text" id="companyName" name="companyName" required>
+
+                <div>
+                    <label for="nip" class="block text-sm font-medium text-gray-700">NIP</label>
+                    <input type="text" id="nip" name="nip" required pattern="[0-9]{10}"
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="nip">NIP *</label>
-                        <input type="text" id="nip" name="nip" required pattern="\d{10}">
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email firmowy</label>
+                    <input type="email" id="email" name="email" required
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Adres email *</label>
-                        <input type="email" id="email" name="email" required>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Hasło</label>
+                    <input type="password" id="password" name="password" required minlength="8"
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Telefon kontaktowy</label>
-                        <input type="tel" id="phone" name="phone">
+
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Potwierdź hasło</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8"
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="password">Hasło *</label>
-                        <div class="password-input-container">
-                            <input type="password" id="password" name="password" required>
-                            <button type="button" id="passwordToggle" class="password-toggle">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div id="passwordStrength" class="password-strength">
-                            <div></div>
-                        </div>
-                        <ul id="passwordRequirements" class="password-requirements">
-                            <li>Minimum 8 znaków</li>
-                            <li>Przynajmniej jedna wielka litera</li>
-                            <li>Przynajmniej jedna mała litera</li>
-                            <li>Przynajmniej jedna cyfra</li>
-                            <li>Przynajmniej jeden znak specjalny</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="confirmPassword">Potwierdź hasło *</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" name="terms" required>
-                            Akceptuję <a href="/terms.html" target="_blank">regulamin</a> i <a href="/privacy.html" target="_blank">politykę prywatności</a> *
-                        </label>
-                    </div>
-                    
-                    <div class="form-footer">
-                        <button type="submit" class="submit-btn">Zarejestruj się</button>
-                        <p class="login-link">
-                            Masz już konto? <a href="/login.html">Zaloguj się</a>
-                        </p>
+
+                <div>
+                    <button type="submit"
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Zarejestruj się
+                    </button>
                     </div>
                 </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Masz już konto? 
+                    <a href="/login.html" class="font-medium text-blue-600 hover:text-blue-500">
+                        Zaloguj się
+                    </a>
+                </p>
             </div>
+
+            <div id="errorMessage" class="mt-4 text-center text-red-600 hidden"></div>
+            <div id="successMessage" class="mt-4 text-center text-green-600 hidden"></div>
         </div>
     </div>
-    
-    <script src="js/registration.js"></script>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const companyName = document.getElementById('companyName').value;
+            const nip = document.getElementById('nip').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+
+            // Reset messages
+            errorDiv.classList.add('hidden');
+            successDiv.classList.add('hidden');
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                errorDiv.textContent = 'Hasła nie są identyczne';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            // Validate NIP format
+            if (!/^[0-9]{10}$/.test(nip)) {
+                errorDiv.textContent = 'NIP musi składać się z 10 cyfr';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        companyName,
+                        nip,
+                        email,
+                        password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Show success message
+                    successDiv.textContent = 'Rejestracja przebiegła pomyślnie. Sprawdź swoją skrzynkę email, aby zweryfikować konto.';
+                    successDiv.classList.remove('hidden');
+                    
+                    // Clear form
+                    document.getElementById('registrationForm').reset();
+
+                    // Redirect to login page after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 3000);
+                } else {
+                    // Show error message
+                    errorDiv.textContent = data.message || 'Wystąpił błąd podczas rejestracji';
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                errorDiv.textContent = 'Wystąpił błąd podczas rejestracji. Spróbuj ponownie później.';
+                errorDiv.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html> 
