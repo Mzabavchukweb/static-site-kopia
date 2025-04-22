@@ -8,16 +8,15 @@ const { Resend } = require('resend');
 const config = require('./config/config');
 
 const app = express();
-const port = 5500;
+const port = process.env.PORT || 5500;
 
 // Initialize Resend
-const RESEND_API_KEY = 're_eutYnNEV_HaPCfb1Wrcc2YM4Nj1BupEL9';
-console.log('Initializing Resend with API key:', RESEND_API_KEY);
-const resend = new Resend(RESEND_API_KEY);
+const resend = new Resend(config.email.resendApiKey);
+console.log('Initializing Resend with API key:', config.email.resendApiKey);
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:5500'],
+    origin: ['http://localhost:5500', 'https://mzabavchukweb.github.io'],
     credentials: true
 }));
 
@@ -35,14 +34,21 @@ apiRouter.post('/auth/login', async (req, res) => {
 
         // Test credentials
         if (email === 'zabavchukmaks21@gmail.com' && password === 'Relmadrid12!') {
+            const token = jwt.sign(
+                { email, role: 'user' },
+                config.jwt.secret,
+                { expiresIn: '24h' }
+            );
+
             return res.json({
                 success: true,
                 message: 'Zalogowano pomyślnie',
                 user: {
                     email: email,
-                    name: 'Test User'
+                    name: 'Test User',
+                    role: 'user'
                 },
-                token: 'test-token'
+                token
             });
         }
 
@@ -228,25 +234,15 @@ app.use('/api', apiRouter);
 // Serve static files AFTER API routes
 app.use(express.static(path.join(__dirname, '../')));
 
-// Serve index.html for root route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
-});
-
-// Serve login.html for /login route
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../login.html'));
-});
-
-// Error handling for 404
-app.use((req, res) => {
+// Handle SPA routing
+app.get('*', (req, res) => {
     if (req.path.startsWith('/api/')) {
         return res.status(404).json({
             success: false,
             message: 'API endpoint not found'
         });
     }
-    res.status(404).sendFile(path.join(__dirname, '../404.html'));
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 // Start server
