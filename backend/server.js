@@ -11,12 +11,13 @@ const app = express();
 const port = process.env.PORT || 5500;
 
 // Initialize Resend
-const resend = new Resend(config.email.resendApiKey);
-console.log('Initializing Resend with API key:', config.email.resendApiKey);
+const RESEND_API_KEY = process.env.RESEND_API_KEY || 're_eutYnNEV_HaPCfb1Wrcc2YM4Nj1BupEL9';
+console.log('Initializing Resend with API key:', RESEND_API_KEY);
+const resend = new Resend(RESEND_API_KEY);
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:5500', 'https://mzabavchukweb.github.io'],
+    origin: process.env.FRONTEND_URL || 'http://localhost:5500',
     credentials: true
 }));
 
@@ -34,21 +35,14 @@ apiRouter.post('/auth/login', async (req, res) => {
 
         // Test credentials
         if (email === 'zabavchukmaks21@gmail.com' && password === 'Relmadrid12!') {
-            const token = jwt.sign(
-                { email, role: 'user' },
-                config.jwt.secret,
-                { expiresIn: '24h' }
-            );
-
             return res.json({
                 success: true,
                 message: 'Zalogowano pomyślnie',
                 user: {
                     email: email,
-                    name: 'Test User',
-                    role: 'user'
+                    name: 'Test User'
                 },
-                token
+                token: 'test-token'
             });
         }
 
@@ -234,15 +228,25 @@ app.use('/api', apiRouter);
 // Serve static files AFTER API routes
 app.use(express.static(path.join(__dirname, '../')));
 
-// Handle SPA routing
-app.get('*', (req, res) => {
+// Serve index.html for root route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+// Serve login.html for /login route
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '../login.html'));
+});
+
+// Error handling for 404
+app.use((req, res) => {
     if (req.path.startsWith('/api/')) {
         return res.status(404).json({
             success: false,
             message: 'API endpoint not found'
         });
     }
-    res.sendFile(path.join(__dirname, '../index.html'));
+    res.status(404).sendFile(path.join(__dirname, '../404.html'));
 });
 
 // Start server

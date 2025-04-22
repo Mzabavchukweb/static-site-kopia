@@ -1,17 +1,26 @@
 # B2B Auto Parts Platform
 
-Platforma B2B dla sprzedaży części samochodowych.
+Platforma B2B do sprzedaży części samochodowych z systemem rejestracji, logowania i weryfikacji email.
+
+## Funkcjonalności
+
+- Rejestracja użytkowników B2B
+- Logowanie użytkowników
+- Weryfikacja email
+- Panel administratora
+- Katalog produktów
+- System zamówień
 
 ## Wymagania
 
-- Node.js v18 lub nowszy
-- NPM v9 lub nowszy
+- Node.js >= 14.0.0
+- NPM >= 6.0.0
 
 ## Instalacja
 
 1. Sklonuj repozytorium:
 ```bash
-git clone https://github.com/Mzabavchukweb/static-site-kopia.git
+git clone https://github.com/mzabavchukweb/static-site-kopia.git
 cd static-site-kopia
 ```
 
@@ -21,36 +30,41 @@ npm install
 ```
 
 3. Skonfiguruj zmienne środowiskowe:
-Stwórz plik `.env` w katalogu `backend` i dodaj następujące zmienne:
+Utwórz plik `.env` w głównym katalogu projektu i dodaj następujące zmienne:
 ```env
-RESEND_API_KEY=re_eutYnNEV_HaPCfb1Wrcc2YM4Nj1BupEL9
-JWT_SECRET=your-super-secret-jwt-key-2024
+RESEND_API_KEY=your_resend_api_key
+JWT_SECRET=your_jwt_secret
 FRONTEND_URL=http://localhost:5500
-PORT=5500
 ```
 
 ## Uruchomienie
 
-1. Tryb developerski:
+### Tryb developerski:
 ```bash
 npm run dev
 ```
 
-2. Tryb produkcyjny:
+### Tryb produkcyjny:
 ```bash
 npm start
 ```
 
-Aplikacja będzie dostępna pod adresem: http://localhost:5500
+Aplikacja będzie dostępna pod adresem: `http://localhost:5500`
 
-## Funkcjonalności
+## Endpointy API
 
-- Logowanie użytkowników
-- Rejestracja firm B2B
-- Weryfikacja email
-- Panel administracyjny
+- `POST /api/auth/login` - Logowanie użytkownika
+- `POST /api/register-b2b` - Rejestracja użytkownika B2B
+- `GET /api/verify-email` - Weryfikacja adresu email
+- `POST /api/test-email` - Test wysyłania emaili
 
-## Dane testowe
+## Konfiguracja email (Resend)
 
-Login: zabavchukmaks21@gmail.com
-Hasło: Relmadrid12! 
+1. Utwórz konto na [Resend](https://resend.com)
+2. Uzyskaj klucz API
+3. Dodaj zweryfikowany adres email
+4. Ustaw klucz API w zmiennych środowiskowych
+
+## Licencja
+
+MIT 
