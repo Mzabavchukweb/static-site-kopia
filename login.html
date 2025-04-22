@@ -183,7 +183,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:3000/api';
+        const API_URL = 'http://localhost:5500/api';
 
         function showError(element, message) {
             const errorElement = document.getElementById(element + 'Error');
@@ -200,55 +200,36 @@
             });
         }
 
-        function validateForm(email, password) {
-            let isValid = true;
-            clearErrors();
-
-            if (!email) {
-                showError('email', 'Adres e-mail jest wymagany');
-                isValid = false;
-            } else if (!/\S+@\S+\.\S+/.test(email)) {
-                showError('email', 'Nieprawidłowy format adresu e-mail');
-                isValid = false;
-            }
-
-            if (!password) {
-                showError('password', 'Hasło jest wymagane');
-                isValid = false;
-            } else if (password.length < 6) {
-                showError('password', 'Hasło musi mieć co najmniej 6 znaków');
-                isValid = false;
-            }
-
-            return isValid;
-        }
-
-        async function loginUser(email, password, isAdmin) {
+        async function loginUser(email, password) {
             const button = document.querySelector('.login-button');
             button.disabled = true;
             button.classList.add('loading');
 
             try {
+                console.log('Attempting login with:', { email });
                 const response = await fetch(`${API_URL}/auth/login`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({ email, password })
                 });
 
                 const data = await response.json();
+                console.log('Server response:', data);
 
                 if (!response.ok) {
                     throw new Error(data.message || 'Błąd logowania');
                 }
 
-                // Zapisz token i dane użytkownika
+                // Save token and user data
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
 
                 return data;
             } catch (error) {
+                console.error('Login error:', error);
                 throw error;
             } finally {
                 button.disabled = false;
@@ -258,16 +239,14 @@
 
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const isAdmin = document.getElementById('adminLoginLink').classList.contains('active');
+            clearErrors();
 
-            if (!validateForm(email, password)) {
-                return;
-            }
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
 
             try {
-                const response = await loginUser(email, password, isAdmin);
+                const response = await loginUser(email, password);
+                console.log('Login successful:', response);
                 
                 if (response.user.role === 'admin') {
                     window.location.href = 'admin.html';
@@ -275,7 +254,8 @@
                     window.location.href = 'account.html';
                 }
             } catch (error) {
-                showError('password', error.message);
+                console.error('Form submission error:', error);
+                showError('password', error.message || 'Wystąpił błąd podczas logowania');
             }
         });
 

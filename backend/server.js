@@ -4,33 +4,71 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const jwt = require('jsonwebtoken');
-const mailer = require('./config/mailer');
+const { Resend } = require('resend');
 const config = require('./config/config');
 
 const app = express();
 const port = 5500;
 
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../')));
+// Initialize Resend
+const RESEND_API_KEY = 're_eutYnNEV_HaPCfb1Wrcc2YM4Nj1BupEL9';
+console.log('Initializing Resend with API key:', RESEND_API_KEY);
+const resend = new Resend(RESEND_API_KEY);
 
-// Generowanie tokena weryfikacyjnego
-const generateVerificationToken = (userData) => {
-    return jwt.sign(
-        { email: userData.email, companyName: userData.companyName },
-        config.jwt.secret,
-        { expiresIn: config.jwt.expiresIn }
-    );
-};
+// Middleware
+app.use(cors({
+    origin: ['http://localhost:3000', 'http://localhost:5500'],
+    credentials: true
+}));
+
+// Parse JSON bodies
+app.use(bodyParser.json());
+
+// API Router - Mount BEFORE static files
+const apiRouter = express.Router();
+
+// Login endpoint
+apiRouter.post('/auth/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log('Login attempt for:', email);
+
+        // Test credentials
+        if (email === 'zabavchukmaks21@gmail.com' && password === 'Relmadrid12!') {
+            return res.json({
+                success: true,
+                message: 'Zalogowano pomyślnie',
+                user: {
+                    email: email,
+                    name: 'Test User'
+                },
+                token: 'test-token'
+            });
+        }
+
+        return res.status(401).json({
+            success: false,
+            message: 'Nieprawidłowy email lub hasło'
+        });
+    } catch (error) {
+        console.error('Login error:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Wystąpił błąd podczas logowania',
+            details: error.message
+        });
+    }
+});
 
 // B2B Registration endpoint
-app.post('/api/register-b2b', async (req, res) => {
+apiRouter.post('/register-b2b', async (req, res) => {
     try {
+        console.log('Received registration request:', req.body);
         const { companyName, nip, email, phone, password } = req.body;
 
         // Basic validation
         if (!companyName || !nip || !email || !password) {
+            console.log('Validation failed - missing required fields');
             return res.status(400).json({
                 success: false,
                 message: 'Wszystkie wymagane pola muszą być wypełnione'
@@ -41,21 +79,66 @@ app.post('/api/register-b2b', async (req, res) => {
         const verificationToken = generateVerificationToken({ email, companyName });
         const verificationLink = `${config.frontend.url}/verify-email?token=${verificationToken}`;
 
+        console.log('Generated verification link:', verificationLink);
+
         // Send verification email
         try {
-            const emailTemplate = mailer.getVerificationEmailTemplate(companyName, verificationLink);
-            await mailer.sendEmail(email, emailTemplate);
+            console.log('Preparing to send verification email to:', email);
+            
+            const emailData = {
+                from: 'AutoParts B2B <onboarding@resend.dev>',
+                to: email,
+                subject: 'Weryfikacja konta B2B - AutoParts',
+                html: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #2563eb;">Witaj ${companyName}!</h2>
+                        
+                        <p>Dziękujemy za rejestrację w systemie AutoParts B2B. Aby aktywować swoje konto, kliknij w poniższy link:</p>
+                        
+                        <div style="text-align: center; margin: 30px 0;">
+                            <a href="${verificationLink}" 
+                               style="background-color: #2563eb; color: white; padding: 12px 24px; 
+                                      text-decoration: none; border-radius: 5px; display: inline-block;">
+                                Aktywuj konto
+                            </a>
+                        </div>
+                        
+                        <p>Link jest ważny przez 24 godziny. Jeśli nie rejestrowałeś się w naszym systemie, zignoruj tę wiadomość.</p>
+                        
+                        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
+                            <p style="color: #666; font-size: 14px;">
+                                Z poważaniem,<br>
+                                Zespół AutoParts B2B
+                            </p>
+                        </div>
+                    </div>
+                `
+            };
+
+            console.log('Sending email with data:', emailData);
+            
+            const { data, error } = await resend.emails.send(emailData);
+
+            if (error) {
+                console.error('Error sending email:', error);
+                throw error;
+            }
+
+            console.log('Email sent successfully:', data);
             
             res.status(200).json({ 
                 success: true,
                 message: 'Rejestracja przebiegła pomyślnie. Sprawdź swoją skrzynkę email, aby zweryfikować konto.',
-                redirectUrl: '/verification-pending.html'
+                redirectUrl: '/verification-pending.html',
+                emailDetails: data
             });
-        } catch (error) {
-            console.error('Błąd wysyłania maila:', error);
+        } catch (emailError) {
+            console.error('Błąd wysyłania maila:', emailError);
             res.status(500).json({ 
                 success: false,
-                error: 'Wystąpił błąd podczas wysyłania maila weryfikacyjnego.' 
+                error: 'Wystąpił błąd podczas wysyłania maila weryfikacyjnego.',
+                details: emailError.message,
+                stack: emailError.stack
             });
         }
         
@@ -63,13 +146,15 @@ app.post('/api/register-b2b', async (req, res) => {
         console.error('Registration error:', error);
         res.status(500).json({
             success: false,
-            message: 'Wystąpił błąd podczas rejestracji'
+            message: 'Wystąpił błąd podczas rejestracji',
+            details: error.message,
+            stack: error.stack
         });
     }
 });
 
 // Email verification endpoint
-app.get('/verify-email', async (req, res) => {
+apiRouter.get('/verify-email', async (req, res) => {
     try {
         const { token } = req.query;
 
@@ -79,6 +164,7 @@ app.get('/verify-email', async (req, res) => {
 
         // Verify token
         const decoded = jwt.verify(token, config.jwt.secret);
+        console.log('Verified token:', decoded);
 
         // Here you would typically:
         // 1. Check if token exists in database
@@ -95,28 +181,39 @@ app.get('/verify-email', async (req, res) => {
 });
 
 // Test email route
-app.get('/test-email', async (req, res) => {
+apiRouter.post('/test-email', async (req, res) => {
     try {
-        const emailTemplate = {
+        const testEmail = req.body.email || 'zabavchukmaks21@gmail.com';
+        console.log('Received test email request for:', testEmail);
+        
+        const { data, error } = await resend.emails.send({
             from: 'onboarding@resend.dev',
+            to: testEmail,
             subject: 'Test Email - AutoParts B2B',
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <h2 style="color: #2563eb;">Test Email</h2>
                     <p>To jest testowa wiadomość z systemu AutoParts B2B.</p>
                     <p>Jeśli otrzymałeś tego maila, oznacza to, że system mailowy działa poprawnie!</p>
+                    <p>Czas wysłania: ${new Date().toLocaleString()}</p>
                 </div>
             `
-        };
+        });
 
-        await mailer.sendEmail('zabavchuk.maksym@gmail.com', emailTemplate);
+        if (error) {
+            console.error('Error sending test email:', error);
+            throw error;
+        }
+
+        console.log('Test email sent successfully:', data);
         
         res.json({ 
             success: true,
-            message: 'Email testowy został wysłany pomyślnie'
+            message: 'Email testowy został wysłany pomyślnie',
+            result: data
         });
     } catch (error) {
-        console.error('Błąd wysyłania maila testowego:', error);
+        console.error('Error sending test email:', error);
         res.status(500).json({ 
             success: false,
             error: 'Wystąpił błąd podczas wysyłania maila testowego',
@@ -125,11 +222,35 @@ app.get('/test-email', async (req, res) => {
     }
 });
 
-// Favicon route
-app.get('/favicon.ico', (req, res) => {
-    res.sendFile(path.join(__dirname, '../images/favicon.ico'));
+// Mount API routes BEFORE static files
+app.use('/api', apiRouter);
+
+// Serve static files AFTER API routes
+app.use(express.static(path.join(__dirname, '../')));
+
+// Serve index.html for root route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
+// Serve login.html for /login route
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '../login.html'));
+});
+
+// Error handling for 404
+app.use((req, res) => {
+    if (req.path.startsWith('/api/')) {
+        return res.status(404).json({
+            success: false,
+            message: 'API endpoint not found'
+        });
+    }
+    res.status(404).sendFile(path.join(__dirname, '../404.html'));
+});
+
+// Start server
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server is running on port ${port}`);
+    console.log(`API available at http://localhost:${port}/api`);
 }); 

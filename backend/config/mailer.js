@@ -2,11 +2,16 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const { Resend } = require('resend');
 
-const resend = new Resend('re_eutYnNEV_HaPCfb1Wrcc2YM4Nj1BupEL9');
+if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY is not set in environment variables');
+}
+
+console.log('Initializing Resend with API key:', process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Szablon emaila weryfikacyjnego
 const getVerificationEmailTemplate = (userName, verificationLink) => {
-    return {
+    const template = {
         from: 'onboarding@resend.dev',
         subject: 'Weryfikacja konta B2B - AutoParts',
         html: `
@@ -34,29 +39,37 @@ const getVerificationEmailTemplate = (userName, verificationLink) => {
             </div>
         `
     };
+    console.log('Generated email template:', template);
+    return template;
 };
 
 // Funkcja do wysyłania maila
 const sendEmail = async (to, template) => {
-    // W trybie testowym możemy wysyłać tylko na zweryfikowany adres
-    const testEmail = 'zabavchukmaks21@gmail.com';
-    
     try {
+        console.log('Starting email send process...');
+        console.log('Sending email to:', to);
+        console.log('Using template:', {
+            from: template.from,
+            subject: template.subject,
+            htmlLength: template.html.length
+        });
+        
         const { data, error } = await resend.emails.send({
             from: template.from,
-            to: testEmail, // Używamy testowego adresu
+            to: to,
             subject: template.subject,
             html: template.html
         });
 
         if (error) {
-            console.error('Błąd wysyłania maila:', error);
-            throw new Error('Błąd wysyłania maila');
+            console.error('Error sending email:', error);
+            throw error;
         }
 
+        console.log('Email sent successfully:', data);
         return data;
     } catch (error) {
-        console.error('Błąd wysyłania maila:', error);
+        console.error('Error in sendEmail:', error);
         throw error;
     }
 };

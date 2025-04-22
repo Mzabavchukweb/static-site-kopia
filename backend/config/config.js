@@ -15,12 +15,12 @@ module.exports = {
     // Konfiguracja email
     email: {
         resendApiKey: process.env.RESEND_API_KEY,
-        fromEmail: process.env.FROM_EMAIL || 'noreply@your-domain.com'
+        fromEmail: 'onboarding@resend.dev'
     },
 
     // Konfiguracja frontendu
     frontend: {
-        url: process.env.FRONTEND_URL || 'http://localhost:3000'
+        url: process.env.FRONTEND_URL || 'http://localhost:5500'
     },
 
     // Konfiguracja API REGON
